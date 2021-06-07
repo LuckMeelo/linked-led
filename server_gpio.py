@@ -43,7 +43,7 @@ class MyServer(BaseHTTPRequestHandler):
         html = os.popen("cat index.html").read()
         temp = os.popen("/opt/vc/bin/vcgencmd measure_temp").read()
         self.do_HEAD()
-        self.wfile.write(html.format().encode("utf-8"))
+        self.wfile.write(html.encode("utf-8"))
 
     def do_POST(self):
         """ do_POST() can be tested using curl command 
