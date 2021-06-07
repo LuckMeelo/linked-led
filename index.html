@@ -113,10 +113,12 @@
                 this.value = "On"
                 trans()
                 document.documentElement.setAttribute('data-theme', 'dark')
+                this.submit()
             } else {
                 this.value = "Off"
                 trans()
                 document.documentElement.setAttribute('data-theme', 'light')
+                this.submit()
             }
         })
 
