@@ -1,7 +1,6 @@
 # Linked Led - TekBot project
 
 - **Choosed language:** python
-- **Compilation:** via Makefile, including re, clean and fclean rules
 
 # Goal
 
