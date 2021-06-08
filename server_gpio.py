@@ -12,7 +12,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 
 # Change this to your Raspberry Pi IP address (ip -4 address | grep inet)
-host_name = '192.168.0.114'
+host_name = '10.61.2.181'
 # Port
 host_port = 8000
 
@@ -41,7 +41,6 @@ class MyServer(BaseHTTPRequestHandler):
             'curl http://server-ip-address:port' 
         """
         html = os.popen("cat index.html").read()
-        temp = os.popen("/opt/vc/bin/vcgencmd measure_temp").read()
         self.do_HEAD()
         self.wfile.write(html.encode("utf-8"))
 
