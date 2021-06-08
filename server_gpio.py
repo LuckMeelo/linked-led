@@ -62,6 +62,15 @@ class MyServer(BaseHTTPRequestHandler):
         except:
             f = "File not found"
             self.send_error(404, f)
+        # GPIO setup
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(18, GPIO.OUT)
+
+        if state == 'On':
+            GPIO.output(18, GPIO.HIGH)
+        else:
+            GPIO.output(18, GPIO.LOW)
 
     def do_POST(self):
         """ do_POST() can be tested using curl command
@@ -78,15 +87,6 @@ class MyServer(BaseHTTPRequestHandler):
             post_data = "Off"
         state = post_data
         # print(post_data)
-        # GPIO setup
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setwarnings(False)
-        GPIO.setup(18, GPIO.OUT)
-
-        if post_data == 'On':
-            GPIO.output(18, GPIO.HIGH)
-        else:
-            GPIO.output(18, GPIO.LOW)
         print("LED is {}".format(post_data))
         self._redirect('/')    # Redirect back to the root url
 
