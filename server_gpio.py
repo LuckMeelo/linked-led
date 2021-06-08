@@ -42,7 +42,7 @@ class MyServer(BaseHTTPRequestHandler):
             f = open(self.path[1:]).read()
             self.do_HEAD("text/" + request_extension[1:])
             if (request_extension == ".html"):
-                self.wfile.write(f.format(state).encode("utf-8"))
+                self.wfile.write(f.format(state, state).encode("utf-8"))
             else:
                 self.wfile.write(bytes(f, 'utf-8'))
         else:
@@ -87,6 +87,9 @@ class MyServer(BaseHTTPRequestHandler):
             GPIO.output(18, GPIO.HIGH)
         else:
             GPIO.output(18, GPIO.LOW)
+        print("LED is {}".format(post_data))
+        self._redirect('/')    # Redirect back to the root url
+
         print("LED is {}".format(post_data))
         self._redirect('/')    # Redirect back to the root url
 

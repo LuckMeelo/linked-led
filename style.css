@@ -8,6 +8,8 @@ html {
         justify-content: center;
         align-items: center;
     background: var(--lightBg);
+    font-size: 3vw;
+    text-align: center;
 
     --lightBtn: #FE016C;
     --lightBg: #fff;
@@ -40,8 +42,8 @@ input[type=checkbox] {
 label {
     cursor: pointer;
     text-indent: -9999px;
-    width: 55px;
-    height: 30px;
+    width: 90px;
+    height: 50px;
     background: var(--lightBtn);
     margin: 0 auto;
     display: flex;
@@ -56,8 +58,8 @@ label {
 label:after {
     content: '';
     background: #fff;
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
