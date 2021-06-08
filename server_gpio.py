@@ -15,6 +15,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 host_name = '10.61.2.181'
 # Port
 host_port = 8000
+state = "Off"
 
 
 class MyServer(BaseHTTPRequestHandler):
@@ -22,12 +23,12 @@ class MyServer(BaseHTTPRequestHandler):
         and control GPIO of a Raspberry Pi
     """
 
-    def do_HEAD(self):
-        """ do_HEAD() can be tested use curl command 
-            'curl -I http://server-ip-address:port' 
+    def do_HEAD(self, type):
+        """ do_HEAD() can be tested use curl command
+            'curl -I http://server-ip-address:port'
         """
         self.send_response(200)
-        self.send_header('Content-type', 'text/html')
+        self.send_header('Content-type', type)
         self.end_headers()
 
     def _redirect(self, path):
@@ -36,24 +37,47 @@ class MyServer(BaseHTTPRequestHandler):
         self.send_header('Location', path)
         self.end_headers()
 
+    def checkRequestedFiles(self, request_extension):
+        if request_extension != ".py":
+            f = open(self.path[1:]).read()
+            self.do_HEAD("text/" + request_extension[1:])
+            if (request_extension == ".html"):
+                self.wfile.write(f.format(state).encode("utf-8"))
+            else:
+                self.wfile.write(bytes(f, 'utf-8'))
+        else:
+            f = "File not found"
+            self.send_error(404, f)
+
     def do_GET(self):
-        """ do_GET() can be tested using curl command 
-            'curl http://server-ip-address:port' 
+        """ do_GET() can be tested using curl command
+            'curl http://server-ip-address:port'
         """
-        html = os.popen("cat index.html").read()
-        self.do_HEAD()
-        self.wfile.write(html.encode("utf-8"))
+        if (self.path == "/"):
+            self.path = '/index.html'
+        try:
+            split_path = os.path.splitext(self.path)
+            request_extension = split_path[1]
+            self.checkRequestedFiles(request_extension)
+        except:
+            f = "File not found"
+            self.send_error(404, f)
 
     def do_POST(self):
-        """ do_POST() can be tested using curl command 
-            'curl -d "submit=On" http://server-ip-address:port' 
+        """ do_POST() can be tested using curl command
+            'curl -d "submit=On" http://server-ip-address:port'
         """
+        global state
         content_length = int(
             self.headers['Content-Length'])    # Get the size of data
         post_data = self.rfile.read(content_length).decode(
             "utf-8")   # Get the data
-        post_data = post_data.split("=")[1]    # Only keep the value
-
+        try:
+            post_data = post_data.split("=")[1]    # Only keep the value
+        except:
+            post_data = "Off"
+        state = post_data
+        # print(post_data)
         # GPIO setup
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
