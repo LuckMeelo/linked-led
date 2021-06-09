@@ -8,7 +8,7 @@ html {
         justify-content: center;
         align-items: center;
     background: var(--lightBg);
-    font-size: 3vw;
+    font-size: 3vh;
     text-align: center;
 
     --lightBtn: #FE016C;
